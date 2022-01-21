@@ -1,0 +1,22 @@
+{
+
+    "require": {
+        "doctrine/orm": "^2.10",
+        "symfony/cache": "^5.4",
+        "doctrine/annotations": "^1.13",
+        "laminas/laminas-mail": "^2.15",
+        "symfony/serializer": "^5.4",
+        "symfony/property-access": "^5.4"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "App\\": "./src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
+    }
+}
