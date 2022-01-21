@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,9 +10,12 @@
 
 <body>
     <form method="post">
+        <label for="titre">Titre</label>
         <input type="text" name="titre" placeholder="titre">
+        <label for="auteur">Auteur</label>
         <input type="text" name="auteur" placeholder="auteur">
         <input type="submit" name="submit">
     </form>
 </body>
+
 </html>

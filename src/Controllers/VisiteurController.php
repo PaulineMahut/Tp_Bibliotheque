@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+session_start();
+
 use App\Helpers\EntityManagerHelper as Em;
 use App\Models\AbstractRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -23,10 +25,47 @@ class VisiteurController {
         $aLivres = $livreRepo->findAll();
     }
 
-    public static function AddVisitor($em) {
-            $visitor = new Visitor("DUPONT", "James", 56456346353);
-            $em->persist($visitor);
-            $em->flush();
+    public function afficherFormulaire()
+    {
+
+        include './src/vues/formulaireVisitor.php';
+        
+    }
+
+
+    const NEEDLES = [
+        "nom",
+        "prenom",
+        "piece_identite"
+    ];
+
+    public static function addVisitor() {
+            
+        //Méthode Lory
+
+        foreach (self::NEEDLES as $key => $value) { //appel tableau
+            if (!array_key_exists($value, $_POST)) { //si array key devient faux, dire qu'il manque des choses, verifie si titre est rempli, puis auteur
+                $_SESSION["error"]= "Il manque des champs à remplir";
+                header("location: http://localhost/autoload/src/vues/formulaireVisitor.php");
+                exit;
+            }
+
+            $_POST[$value]= htmlentities(strip_tags($_POST[$value])); //securiser, enlever balises html
+            
+        }
+
+        $visitor = new Visitor($_POST["nom"], $_POST["prenom"], (int) $_POST["piece_identite"]);
+        $entityManager =Em::getEntityManager();
+        $entityManager->persist($visitor);
+        $entityManager->flush();
+
+        header("location: http://localhost/autoload/src/vues/formulaireVisitor.php");
+
+        
+        // $visitor = new Visitor("DUPONT", "James", 56456346353);
+        //     $em->persist($visitor);
+        //     $em->flush();
     
         }
+
 }

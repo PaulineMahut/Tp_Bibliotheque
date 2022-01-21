@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace App\Controllers;
 
@@ -49,11 +49,11 @@ class LivreController {
 
     public function addLivre() {
 
-        if (isset($_POST['titre'], $_POST['auteur'])) {
+        if (isset($_POST['titre'], $_POST['auteur'])) { //vérifier si les champs sont vide,sinon ne peut pas se créer, tester si c'est vide et renvoyer vers le formulaire
             $titre = $_POST['titre'];
             $auteur = $_POST['auteur'];
         } else
-            throw new Exception("Champ vide");
+            throw new Exception("Champ vide"); //si vide, exception affichée
             
         $entityManager = Em::getEntityManager();
         $livre = new Livre($titre, $auteur);
@@ -66,14 +66,14 @@ class LivreController {
         
     }
 
-    public function afficher()
+    public function afficherFormulaire()
     {
 
         include './src/vues/formulaireLivre.php';
         
     }
  
-    public function modifLivre()
+    public function modifLivre($titre, $auteur)
     {
 
         include './src/vues/formulaireLivre.php';
@@ -86,9 +86,28 @@ class LivreController {
         foreach ($aLivres as $k => $livre) { //parcours un tableau
             $title = $livre->getTitre();
             $author = $livre->getAuteur();
-            print("<p>" . $title .' '. "<span style='font-weight:bold'>" . $author ."</span>".' '. "<p/><br/>" );
+            print("<p>" . $title .' '. "<span style='font-weight:bold'>" . $author ."</span>" .' '. "<a href=''>". ' ' ."<p/><br/>" );
 
         }
+
+        try {
+            $query = $conn->prepare("UPDATE `Livre` SET `titre` = :titre , `auteur`= :auteur  WHERE `user_id` = :user_id AND `id`= :article_id ");
+            $response = $query->execute(['article_id' => $article_id, 'titre' => $titre, 'auteur' => $auteur, 'user_id' => $user_id]);
+        } catch ( \PDOException $err) {
+            $error_code = $err->getCode();
+            $error_msg = $err->getMessage();
+            $error["message"] .= $error_msg;
+            $error["exist"] = true;
+    
+            return $error;
+        }
+        
+        if (!$response) {
+            $error["message"] .= "Une erreur s'est produite durant la mofication de l'article'";
+            $error["exist"] = true;
+            return $error;
+        }
+
     }
 
     public function supprLivre()

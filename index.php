@@ -106,16 +106,17 @@ $router->get('/livres', 'App\Controllers\LivreController@afficherLivres');
 
 $router->get('/livre/:id', 'App\Controllers\LivreController@showOne');
 
-$router->get('/visiteur', 'App\Controllers\VisiteurController@index');
-
-$router->get('/visiteurs', 'App\Controllers\VisiteurController@afficherVisiteurs');
-
 $router->get('/book/:id', 'App\Controllers\AppController@show');
 
-$router->get('/ajout', 'App\Controllers\LivreController@afficher');
-$router->post('/ajout', 'App\Controllers\LivreController@addLivre');
+$router->get('/ajoutLivre', 'App\Controllers\LivreController@afficherFormulaire');
+$router->post('/ajoutLivre', 'App\Controllers\LivreController@addLivre');
 
-$router->get('/modifier', 'App\Controllers\LivreController@modifLivre');
-// $router->post('/ajout', 'App\Controllers\LivreController@a');
+$router->get('/ajoutVisiteur', 'App\Controllers\VisiteurController@afficherFormulaire');
+$router->post('/ajoutVisiteur', 'App\Controllers\VisiteurController@addVisitor');
 
-$router->run('/book/:id', 'App\Entity\LivreController@show');
+// $router->post('/modifier', 'App\Controllers\LivreController@modifLivre');
+// $router->get('/modifier', 'App\Controllers\LivreController@');
+
+// $router->run('/book/:id', 'App\Entity\LivreController@show');
+
+$router->run();
