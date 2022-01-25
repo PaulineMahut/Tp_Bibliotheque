@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <form method="POST" action="/autoload/Emprunt:$id">
+    <form method="POST" action=<?="/autoload/emprunt:$id"?>>
 
 <label for="date">Date</label>
 <input type="date" name="date" value="<?= $oEmprunt->getDate_emprunt()->format("Y-m-d") ?>" required>
