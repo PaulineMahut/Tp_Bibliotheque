@@ -5,8 +5,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Id;
 
-/** @ORM\MappedSuperclass      
- * @ORM\Table(name="document",uniqueConstraints={@ORM\UniqueConstraint(name="search_idx", fields={"titre", "auteur"})})
+/** @ORM\Entity
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"journal"="Journal", "dictionnaire"="Dictionnaire", "bd"="BD", "livre"="Livre", })
+ * @ORM\Table(name="Document",uniqueConstraints={@ORM\UniqueConstraint(name="search_idx", fields={"titre", "auteur"})})
 */
 abstract class Document {
 
@@ -48,5 +51,13 @@ abstract class Document {
         $this->titre = $titre;
 
         return $this;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
     }
 }

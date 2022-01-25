@@ -1,9 +1,3 @@
-<?php
-
-session_start();
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +5,7 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire</title>
+    <title>Formulaire d'ajout</title>
 </head>
 
 <body>
@@ -25,11 +19,25 @@ session_start();
     </div>
     <form method="post">
         <label for="nom">Nom</label>
-        <input type="text" name="nom" placeholder="Nom" id="Nom">
+        <input 
+        type="text" 
+        name="nom" 
+        placeholder="Nom" 
+        id="Nom">
+
         <label for="prenom">Prénom</label>
-        <input type="text" name="prenom" placeholder="Prénom" id="Prenom">
+        <input 
+        type="text" 
+        name="prenom" 
+        placeholder="Prénom" 
+        id="Prenom">
+
         <label for="piece_identite">Pièce d'identité</label>
-        <input type="int" name="piece_identite" placeholder="Piece d'identité" id="piece_identite">
+        <input 
+        type="int" 
+        name="piece_identite" 
+        placeholder="Piece d'identité" 
+        id="piece_identite">
 
         <input type="submit" name="submit">
     </form>

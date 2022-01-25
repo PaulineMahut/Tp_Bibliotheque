@@ -8,6 +8,9 @@ use App\Helpers\EntityManagerHelper as Em;
 use App\Models\AbstractRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use App\Entity\Visitor;
+use App\Helpers\EntityManagerHelper;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 
 class VisiteurController {
 
@@ -43,10 +46,11 @@ class VisiteurController {
             
         //Méthode Lory
 
-        foreach (self::NEEDLES as $key => $value) { //appel tableau
+        if (!empty($_POST)) { //si c'est vide on met l'erreur
+        foreach (self::NEEDLES as $value) { //appel tableau
             if (!array_key_exists($value, $_POST)) { //si array key devient faux, dire qu'il manque des choses, verifie si titre est rempli, puis auteur
-                $_SESSION["error"]= "Il manque des champs à remplir";
-                header("location: http://localhost/autoload/src/vues/formulaireVisitor.php");
+                $error= "Il manque des champs à remplir";
+                include("./src/vues/formulaireVisitor.php");
                 exit;
             }
 
@@ -54,18 +58,60 @@ class VisiteurController {
             
         }
 
-        $visitor = new Visitor($_POST["nom"], $_POST["prenom"], (int) $_POST["piece_identite"]);
+        $piece_identite = (int) $_POST["piece_identite"];
+
+        $visitor = new Visitor($_POST["nom"], $_POST["prenom"], $piece_identite);
+        
         $entityManager =Em::getEntityManager();
         $entityManager->persist($visitor);
         $entityManager->flush();
 
-        header("location: http://localhost/autoload/src/vues/formulaireVisitor.php");
+    }
 
-        
-        // $visitor = new Visitor("DUPONT", "James", 56456346353);
-        //     $em->persist($visitor);
-        //     $em->flush();
+    include("./src/vues/formulaireVisitor.php"); //renvoit vers le formulaire
     
+    }
+
+
+    public function modifierVisitor(string $sId)
+    {
+
+        $entityManager = EntityManagerHelper::getEntityManager();
+        $visitorRepo = new EntityRepository($entityManager, new ClassMetadata("App\Entity\Visitor"));
+        
+        $visitor = $visitorRepo->find($sId);
+
+        if (!empty($_POST)) {
+            foreach (self::NEEDLES as $value) {
+                if (!array_key_exists($value, $_POST)) {
+                    $error = "Il manque des champs à remplir";
+                    include(__DIR__. "/../vues/modifierVisitor.php");
+                    exit;
+                }
+                
+                $_POST[$value] = htmlentities(strip_tags($_POST[$value])); //supprime les balises html et php d'une chaîne
         }
+
+        $visitor->setNom($_POST["nom"]);
+        $visitor->setPrenom($_POST["prenom"]);
+        $visitor->setPieceIdentite($_POST["piece_identite"]);
+
+        $entityManager->persist($visitor);
+        $entityManager->flush();
+    }
+
+    $visitorDatas = [];
+    $visitorDatas["id"] = $visitor->getId();
+
+    foreach (self::NEEDLES as $value) {
+        $getteur = "get". ucfirst($value);
+        if ($value === "piece_identite") {
+            $getteur = "getPieceIdentite";
+        }
+        $visitorDatas[$value] = $visitor->$getteur();
+    }
+
+    include(__DIR__. "/../vues/modifierVisitor.php");
+}
 
 }

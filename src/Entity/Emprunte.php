@@ -79,4 +79,72 @@ class Emprunte {
 
         return $this;
     }
+
+    /**
+     * Get the value of adherent
+     */ 
+    public function getAdherent()
+    {
+        return $this->adherent;
+    }
+
+    /**
+     * Set the value of adherent
+     *
+     * @return  self
+     */ 
+    public function setAdherent($adherent)
+    {
+        $this->adherent = $adherent;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of livre
+     */ 
+    public function getLivre() : Livre
+    {
+        return $this->livre;
+    }
+
+    /**
+     * Set the value of livre
+     *
+     * @return  self
+     */ 
+    public function setLivre(Livre $livre) : self
+    {
+        $this->livre = $livre;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get the value of date_emprunt
+     */ 
+    public function getDate_emprunt()
+    {
+        return $this->date_emprunt;
+    }
+
+    /**
+     * Set the value of date_emprunt
+     *
+     * @return  self
+     */ 
+    public function setDate_emprunt(\DateTime $date_emprunt) : self
+    {
+        $this->date_emprunt = $date_emprunt;
+
+        return $this;
+    }
 }

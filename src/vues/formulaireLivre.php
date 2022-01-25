@@ -10,11 +10,23 @@
 
 <body>
     <form method="post">
+
         <label for="titre">Titre</label>
-        <input type="text" name="titre" placeholder="titre">
+        <input 
+        type="text" 
+        name="titre" 
+        placeholder="titre"
+        id= "titre">
+        
         <label for="auteur">Auteur</label>
-        <input type="text" name="auteur" placeholder="auteur">
+        <input 
+        type="text" 
+        name="auteur" 
+        placeholder="auteur"
+        id="auteur">
+               
         <input type="submit" name="submit">
+
     </form>
 </body>
 

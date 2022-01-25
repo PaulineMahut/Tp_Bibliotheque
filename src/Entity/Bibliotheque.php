@@ -12,9 +12,9 @@ final class Bibliotheque {
     private array $documentList = [];
 
     /**
-     * @ ORM\Column(type="string", length="100")
+     * @ORM\Column(name="name", type="string")
      */
-    private string $name; //nom de la librairie
+    private string $name;
 
     /**
      * @ORM\Id
@@ -33,7 +33,7 @@ final class Bibliotheque {
         return $this->name;
     }
 
-    public function setName(string $name) : self
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -100,6 +100,14 @@ final class Bibliotheque {
     public function getDocumentList() : array
     {
         return $this->documentList;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
     }
 }
 

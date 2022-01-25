@@ -6,7 +6,11 @@ use App\Interfaces\UserInterface;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/** @ORM\MappedSuperclass */
+/** @ORM\Entity
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"salarie"="Salarie", "visitor"="Visitor"})
+ */
 abstract class Adherent implements UserInterface{
 
     /** 
