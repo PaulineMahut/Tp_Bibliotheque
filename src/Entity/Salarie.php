@@ -14,9 +14,9 @@ final class Salarie extends Adherent {
     /** @ORM\Column(name="numero_badge", type="integer") */
     private int $numero_badge;
 
-    public function __construct(string $nom, string $prenom, int $numero_badge)
+    public function __construct(string $nom, string $prenom, int $numero_badge, string $email, string $password)
     {
-        parent::__construct($nom, $prenom);
+        parent::__construct($nom, $prenom, $email, $password);
 
         $this->numero_badge = $numero_badge;
     }

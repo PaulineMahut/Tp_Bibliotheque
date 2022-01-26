@@ -131,6 +131,10 @@ $router->post('/emprunt/:id', 'App\Controllers\EmpruntController@modifEmprunt');
 $router->get('/deleteBibliotheque/:id', 'App\Controllers\BibliothequeController@deleteBiblio');
 
 
+$router->get('/', 'App\Controllers\AppController@login');
+$router->post('/', 'App\Controllers\AppController@login');
+
+
 // $router->run('/book/:id', 'App\Entity\LivreController@show');
 
 $router->run();

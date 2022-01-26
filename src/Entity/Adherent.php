@@ -29,12 +29,24 @@ abstract class Adherent implements UserInterface{
      * @ORM\GeneratedValue
      */
     private int $id;
+
+    /** 
+     * @ORM\Column(name="email", type="string") 
+    */
+    private string $email;
+
+    /** 
+     * @ORM\Column(name="password", type="string", length="255") 
+    */
+    private string $password;
     
 
-    public function __construct(string $nom, string $prenom)
+    public function __construct(string $nom, string $prenom, string $email, string $password)
     {
         $this->nom = $nom;
         $this->prenom = $prenom;
+        $this->email = $email;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
 
         $this->id = random_int(1, 99999);
     }
@@ -93,4 +105,44 @@ public function rendreLivre () : void {
 
     }
 
+
+    /**
+     * Get the value of email
+     */ 
+    public function getEmail() : string 
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */ 
+    public function setEmail(string $email) : self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of password
+     */ 
+    public function getPassword() : string
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */ 
+    public function setPassword(string $password) : self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
 }

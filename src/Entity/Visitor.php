@@ -10,9 +10,9 @@ final class Visitor extends Adherent {
     /** @ORM\Column(type="string") */
     private string $piece_identite;
     
-    public function __construct(string $nom, string $prenom, int $piece_identite)
+    public function __construct(string $nom, string $prenom, int $piece_identite, string $email, string $password)
     {
-        parent::__construct($nom, $prenom);
+        parent::__construct($nom, $prenom, $email, $password);
 
         $this->piece_identite = $piece_identite;
     }
