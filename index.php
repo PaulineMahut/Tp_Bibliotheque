@@ -2,6 +2,8 @@
 
 namespace App;
 
+session_start();
+
 require_once('vendor/autoload.php');
 
 // require_once('bootstrap.php');
@@ -22,7 +24,7 @@ use App\Routes\Router;
 use App\Controllers\LivreController;
 
 
- //date qu'on ne peut pas changer
+//date qu'on ne peut pas changer
 // $journal = new Journal("Journal de 13h", new DateTimeImmutable());
 // $journal->setDateParution();
 // var_dump($journal);
@@ -92,47 +94,63 @@ use App\Controllers\LivreController;
 
 $router = new Router($_GET['url']);
 
-$router->get('/', 'App\Controllers\AppController@index');
+if (!empty($_SESSION['type'])) {
+    $_SESSION['type'] = "";
+}
+    switch ($_SESSION['type']) {
+    case 'visitor':
+        $router->get('/livres', 'App\Controllers\LivreController@afficherLivres');
+        break;
 
-$router->get('/livres', 'App\Controllers\LivreController@afficherLivres');
+    case 'salarie':
+        break;
 
-$router->get('/livre/:id', 'App\Controllers\LivreController@showOne');
+    default:
+        $router->get('/addVisitor', 'App\Controllers\VisiteurController@addVisitor');
+        $router->post('/addVisitor', 'App\Controllers\VisiteurController@addVisitor');
 
-$router->get('/modifierLivre/:id', 'App\Controllers\LivreController@modifierFormulaire');
-$router->post('/modifierLivre/:id', 'App\Controllers\LivreController@modifierbdd');
+        $router->get('/modifierVisitor/:id', 'App\Controllers\VisiteurController@modifierVisitor');
+        $router->post('/modifierVisitor/:id', 'App\Controllers\VisiteurController@modifierVisitor');
 
-$router->get('/ajoutLivre', 'App\Controllers\LivreController@afficherFormulaire');
-$router->post('/ajoutLivre', 'App\Controllers\LivreController@addLivre');
+        $router->get('/addBiblio', 'App\Controllers\BibliothequeController@addBiblio');
+        $router->post('/addBiblio', 'App\Controllers\BibliothequeController@addBiblio');
 
-$router->get('/supprimerLivre/:id', 'App\Controllers\LivreController@supprLivre');
+        $router->get('/biblio/:id', 'App\Controllers\BibliothequeController@modifBiblio');
+        $router->post('/biblio/:id', 'App\Controllers\BibliothequeController@modifBiblio');
+
+        $router->get('/addEmprunt', 'App\Controllers\EmpruntController@addEmprunt');
+        $router->post('/addEmprunt', 'App\Controllers\EmpruntController@addEmprunt');
+
+        $router->get('/emprunt/:id', 'App\Controllers\EmpruntController@modifEmprunt');
+        $router->post('/emprunt/:id', 'App\Controllers\EmpruntController@modifEmprunt');
+
+        $router->get('/deleteBibliotheque/:id', 'App\Controllers\BibliothequeController@deleteBiblio');
+
+
+        $router->get('/', 'App\Controllers\AppController@login');
+        $router->post('/', 'App\Controllers\AppController@login');
+
+        $router->get('/', 'App\Controllers\AppController@index');
+
+
+        $router->get('/livre/:id', 'App\Controllers\LivreController@showOne');
+
+        $router->get('/modifierLivre/:id', 'App\Controllers\LivreController@modifierFormulaire');
+        $router->post('/modifierLivre/:id', 'App\Controllers\LivreController@modifierbdd');
+
+        $router->get('/ajoutLivre', 'App\Controllers\LivreController@afficherFormulaire');
+        $router->post('/ajoutLivre', 'App\Controllers\LivreController@addLivre');
+
+        $router->get('/supprimerLivre/:id', 'App\Controllers\LivreController@supprLivre');
+        break;
+}
+
+
 
 // $router->get('/modifier', 'App\Controllers\LivreController@addLivre');
 // $router->get('/modifier:id', 'App\Controllers\LivreController@modifLivre');
 // $router->post('/modifier:id', 'App\Controllers\LivreController@modifLivre');
 
-$router->get('/addVisitor', 'App\Controllers\VisiteurController@addVisitor');
-$router->post('/addVisitor', 'App\Controllers\VisiteurController@addVisitor');
-
-$router->get('/modifierVisitor/:id', 'App\Controllers\VisiteurController@modifierVisitor');
-$router->post('/modifierVisitor/:id', 'App\Controllers\VisiteurController@modifierVisitor');
-
-$router->get('/addBiblio', 'App\Controllers\BibliothequeController@addBiblio');
-$router->post('/addBiblio', 'App\Controllers\BibliothequeController@addBiblio');
-
-$router->get('/biblio/:id', 'App\Controllers\BibliothequeController@modifBiblio');
-$router->post('/biblio/:id', 'App\Controllers\BibliothequeController@modifBiblio');
-
-$router->get('/addEmprunt', 'App\Controllers\EmpruntController@addEmprunt');
-$router->post('/addEmprunt', 'App\Controllers\EmpruntController@addEmprunt');
-
-$router->get('/emprunt/:id', 'App\Controllers\EmpruntController@modifEmprunt');
-$router->post('/emprunt/:id', 'App\Controllers\EmpruntController@modifEmprunt');
-
-$router->get('/deleteBibliotheque/:id', 'App\Controllers\BibliothequeController@deleteBiblio');
-
-
-$router->get('/', 'App\Controllers\AppController@login');
-$router->post('/', 'App\Controllers\AppController@login');
 
 
 // $router->run('/book/:id', 'App\Entity\LivreController@show');
